@@ -8,7 +8,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "ts-node src/index.ts",
+    "start:dev": "node dist/index.js",
     "lint": "eslint ./src --ext .ts,.tsx",
     "build": "tsc",
     "build:dev": "tsc -p tsconfig.dev.json --sourceMap"
@@ -17,7 +18,8 @@
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "ts-node": "^9.0.0"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.30",
