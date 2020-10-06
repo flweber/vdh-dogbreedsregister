@@ -1,3 +1,4 @@
+import { AllHtmlEntities as Entities } from "html-entities";
 import _ from "lodash";
 import axios from "axios";
 
@@ -8,6 +9,7 @@ export default class VDH {
   private url: string;
   private path: string;
   private limit: number;
+  private entities: Entities;
   breeds: string[];
 
   constructor(protocol: HTTPProtocols = "https", url = "www.vdh.de", path = "/welpen/rasse", limit = 10000) {
@@ -16,6 +18,7 @@ export default class VDH {
     this.path = path;
     this.limit = limit;
     this.breeds = [];
+    this.entities = new Entities();
   }
 
   private async requestBreeds(letter: string): Promise<string> {
@@ -32,8 +35,9 @@ export default class VDH {
       return !filterSpanHeadlines.test(o);
     });
     _.forEach(breeds, (o, index) => {
-      breeds[index] = o.replace("<h3>", "").replace("</h3>", "");
+      breeds[index] = this.entities.decode(o.replace("<h3>", "").replace("</h3>", "").replace(/.\(.*\)/g, ""));
     });
+    breeds = _.uniq(breeds);
     return breeds;
   }
 
